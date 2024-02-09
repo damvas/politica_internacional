@@ -1,0 +1,4 @@
+.vscode/
+.venv/
+politica_internacional_workspace.code-workspace
+tests/
