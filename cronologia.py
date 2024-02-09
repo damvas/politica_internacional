@@ -1,13 +1,12 @@
-# !pip install pdfplumber
 import pdfplumber
 import re
 import pandas as pd
 import os
 import numpy as np
 
-os.chdir('/content/drive/MyDrive/Python/Projetos/BD/Política Internacional')
-book_path = 'Cronologia das Relações Internacionais do Brasil.pdf'
-text_path = 'cronologia_raw.txt'
+book_path = r'raw/Cronologia das Relações Internacionais do Brasil.pdf'
+text_path = r'data/cronologia.txt'
+excel_path = r'data/cronologia.xlsx'
 
 def process_text(book_path: str) -> str:
   raw_text = ""
@@ -93,7 +92,21 @@ def adjust_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     df.loc[mask, 'evento'] = df.loc[mask, 'evento'] + "."
   return df
 
-# process_text(book_path)
+def export_dataframe(df: pd.DataFrame):
+    df.to_csv(excel_path, index=False,sep=';',encoding='latin1')
+
+def main():
+    process_text(book_path)
+    text = read_text_file(text_path)
+    df = make_dataframe(text)
+    df = adjust_dataframe(df)
+    export_dataframe(df)
+    
+# if __name__ == "__main__":
+#     main()
+
+process_text(book_path)
 text = read_text_file(text_path)
 df = make_dataframe(text)
 df = adjust_dataframe(df)
+export_dataframe(df)
